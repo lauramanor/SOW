@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    <!-- The CSS package above applies Google styling to buttons and other elements. -->
+
+    <style>
+    .branding-below {
+      bottom: 56px;
+      top: 0;
+    }
+
+    .branding-text {
+      left: 7px;
+      position: relative;
+      top: 3px;
+    }
+
+    .col-contain {
+      overflow: hidden;
+    }
+
+    .col-one {
+      float: left;
+      width: 50%;
+    }
+
+    .logo {
+      vertical-align: middle;
+    }
+
+    .radio-spacer {
+      height: 20px;
+    }
+
+    .width-100 {
+      width: 100%;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar branding-below">
+      <form>
+       
+       <div class="block form-group">
+          <label for="client_actual"><b>Client Name</b></label>
+          <textarea class="width-100" id="client_actual" rows="1"></textarea>
+        </div>
+       
+       <div class="block form-group select" >
+          <label for="integration_actual"><b>Integration</b></label>
+          <select id="integration_actual">
+          <optgroup label="Multifamily">
+              <option value="YardiVoyager"> Yardi Voyager</option>
+              <option value="YardiRENTCafe"> Yardi RENTCafe</option>
+              <option value="RealPageOneSite"> RealPage OneSite</option>
+              <option value="Yieldstar"> Yieldstar</option>
+              <option value="PropertyLink"> PropertyLink (LeaseStar)</option>
+              <option value="Lead2Lease*"> Lead2Lease</option>
+          </optgroup>
+          <optgroup label="Self Storage">
+              <option value="SiteLink"> SiteLink</option>
+              <option value="SiteLinkUber"> SiteLink with Uber Leasin</option>
+              <option value="Centershift"> Centershift</option>
+              <option value="CentershiftUber"> Centershift with Ube</option>
+              <option value="SSM"> SSM Software: CHECK WITH MIKE</option>
+              <option value="eDomico"> eDomico</option>
+          </optgroup>
+          <optgroup label="Senior Living">
+              <option value="YardiVSH"> Yardi Voyager Senior Housing</option>
+              <option value="REPS"> REPS</option>
+              <option value="YGL"> You've Got Leads</option>
+              <option value="Lead2Lease*"> Lead2Lease* (MF SL) </option>
+              <option value="Leads360"> Leads360 / Velocify</option>
+              <option value="EnquireLEADS"> EnquireLEADS</option>
+
+          </optgroup>
+          <optgroup label="Other">
+              <option value="SalesForce"> SalesForce </option>
+              <option value="SherpaCRM">SherpaCRM </option>
+          </optgroup>
+          </select>
+        </div>
+        
+        
+        
+        <div class="block form-group">
+          <label for="location_actual"><b>Location</b></label>
+          <textarea class="width-100" id="location_actual" rows="1"></textarea>
+        </div>
+
+       <div class="block" id="button-bar">
+          <button class="blue" id="run-main">Fill'er up</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+    </script>
+    <script>
+
+
+
+      /**
+       * Runs a server-side function to update ALL {{}}
+       */
+      function runMain() {
+      
+        var integration_actual = $('#integration').prop('selected');
+      
+        this.disabled = true;
+        $('#error').remove();
+        google.script.run
+            .withSuccessHandler(
+              function(returnSuccess, element) {
+                element.disabled = false;
+              })
+            .withFailureHandler(
+              function(msg, element) {
+                showError(msg, $('#button-bar'));
+                element.disabled = false;
+              })
+            .withUserObject(this)
+            .main($('#client_actual').val(),$('#integration_actual').val(),$('#location_actual').val());
+      }
+
+   
+   
+
+      /**
+       * Inserts a div that contains an error message after a given element.
+       *
+       * @param msg The error message to display.
+       * @param element The element after which to display the error.
+       */
+      function showError(msg, element) {
+        var div = $('<div id="error" class="error">' + msg + '</div>');
+        $(element).after(div);
+      }
+    </script>
+  </body>
+</html>
