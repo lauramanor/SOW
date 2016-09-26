@@ -1,4 +1,3 @@
-
 /**
  * Creates a menu entry in the Google Docs UI when the document is opened.
  */
@@ -24,8 +23,8 @@ function showSidebar() {
       .setTitle('SOW')
       .setSandboxMode(HtmlService.SandboxMode.IFRAME);
   DocumentApp.getUi().showSidebar(ui);
+  file();
 }
-
 /**
 * Replaces {{client}} {{date}} {{project}} {{integration}} {{location}}
 */
@@ -60,7 +59,20 @@ function main(client_actual,integration_actual,location_actual){
     if (body.findText(client_lv)!== null){body.replaceText(client_lv, client_actual);}
     if (body.findText(integration_lv)!== null){body.replaceText(integration_lv, integration_actual);}
     if (body.findText(location_lv)!== null){body.replaceText(location_lv, location_actual);}
-  }
-     
+  } 
+  
+}
+
+
+//adds file to the Completed SOWs folder
+//removes file from the templates folder
+function file(){
+  
+ var file = DriveApp.getFileById(DocumentApp.getActiveDocument().getId());
+ var completed = DriveApp.getFolderById("0B1T9Y1DTvgk9a0xONlQ5WEFFcU0");
+ var templates = DriveApp.getFolderById("0B1T9Y1DTvgk9d0ZyeU5NZkNzSkU");
+ completed.addFile(file);
+ templates.removeFile(file);   
+
 }
 
