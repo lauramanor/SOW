@@ -61,9 +61,28 @@ function main(client_actual,integration_actual,location_actual){
     if (body.findText(location_lv)!== null){body.replaceText(location_lv, location_actual);}
   } 
   
+  curly();
+  
 }
 
-//upon load
+//checks for curly brackets in body
+function curly(){
+  var body = DocumentApp.getActiveDocument().getBody();
+  var heading = DocumentApp.getActiveDocument().getHeader();
+  
+  if (body !== null){
+    if (body.findText("\{")!== null){DocumentApp.getUi().alert("there is a {");}
+    if (body.findText("\}")!== null){DocumentApp.getUi().alert("there is a }");}
+  }
+  if (heading !== null){
+    if (heading.findText("\{")!== null){DocumentApp.getUi().alert("there is a {");}
+    if (heading.findText("\}")!== null){DocumentApp.getUi().alert("there is a }");}
+  }  
+
+  
+  
+}
+
 //adds file to the Compelted SOWs folder
 //removes file from the templates folder
 function file(){
@@ -74,6 +93,7 @@ function file(){
  var templates = DriveApp.getFolderById("0B1T9Y1DTvgk9d0ZyeU5NZkNzSkU");
  completed.addFile(file);
  templates.removeFile(file);   
-  
+   
+
 }
 
