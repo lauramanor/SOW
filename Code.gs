@@ -62,8 +62,26 @@ function main(client_actual,integration_actual,location_actual){
   } 
   
   curly();
-  
+  pound();
 }
+
+//halfsies (no date/client/project)
+function halfsies(integration_actual,location_actual){
+  var integration_lv = "\{\{integration\}\}";
+  var location_lv = "\{\{location\}\}";
+  
+  var body = DocumentApp.getActiveDocument().getBody();
+  
+  //chcks the body of the document
+  if (body !== null){
+    if (body.findText(integration_lv)!== null){body.replaceText(integration_lv, integration_actual);}
+    if (body.findText(location_lv)!== null){body.replaceText(location_lv, location_actual);}
+  } 
+ 
+  pound();
+}
+
+
 
 //checks for curly brackets in body
 function curly(){
@@ -77,23 +95,26 @@ function curly(){
   if (heading !== null){
     if (heading.findText("\{")!== null){DocumentApp.getUi().alert("there is a {");}
     if (heading.findText("\}")!== null){DocumentApp.getUi().alert("there is a }");}
-  }  
-
-  
-  
+  }   
 }
 
 //adds file to the Compelted SOWs folder
 //removes file from the templates folder
 function file(){
-  
  var doc = DocumentApp.getActiveDocument()
  var file = DriveApp.getFileById(doc.getId());
  var completed = DriveApp.getFolderById("0B1T9Y1DTvgk9a0xONlQ5WEFFcU0");
  var templates = DriveApp.getFolderById("0B1T9Y1DTvgk9d0ZyeU5NZkNzSkU");
  completed.addFile(file);
  templates.removeFile(file);   
-   
-
 }
 
+//checks for ## signs
+function pound(){
+  var body = DocumentApp.getActiveDocument().getBody();
+  
+  if (body !== null){
+    if (body.findText("##")!== null){DocumentApp.getUi().alert("there is a ##!");}
+    //else {DocumentApp.getUi().alert("you good girl");}
+  } 
+}
